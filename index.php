@@ -41,13 +41,11 @@ if($_SESSION['role_id'] == 2){
                     <span class="text-2xl font-bold w-8 mr-24"><img src="../Drive-Loc/imgs/360_F_323469705_belmsoxt9kj49rxSmOBXpO0gHtfVJvjl-removebg-preview.png" alt="LOGO"></span>
                 </div>
                 <div class="hidden w-full md:block md:w-auto">
-                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0">
-                    <li>
-                        <a href="../Drive-Loc/index.php" class="block py-2 pl-3 pr-4 text-black-200 border-b-2 border-black-200 md:p-0">Home</a>
-                    </li>
-                    <li>
-                        <a href="../Drive-Loc/pages/vehicles.php" class="block py-2 pl-3 pr-4 text-white hover:text-blue-200 md:p-0">Cars</a>
-                    </li>
+                <ul class="flex space-x-8">
+                        <li><a href="../index.php" class="border-b-2 border-black-200">Home</a></li>
+                        <li><a href="../Drive-loc2.0/pages/vehicles.php" class="hover:text-gray-700">Cars</a></li>
+                        <li><a href="../Drive-loc2.0/blog/blog_index.php" class="hover:text-gray-700">Blog</a></li>
+                        <li><a href="../Drive-loc2.0/blog/myarticles.php" class="hover:text-gray-700">My Articles</a></li>
                 </ul>
                 </div>
                 <?php if(isset($_SESSION['user_id'])){ ?>
