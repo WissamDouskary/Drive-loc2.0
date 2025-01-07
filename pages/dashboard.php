@@ -83,21 +83,59 @@ if($_SESSION['role_id'] == 1){
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Top Navigation -->
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <img src="../imgs/360_F_323469705_belmsoxt9kj49rxSmOBXpO0gHtfVJvjl-removebg-preview.png" alt="LOGO" class="h-8 w-auto">
-                    <span class="ml-2 font-semibold text-xl">Drive & Loc Admin</span>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <span class="text-gray-700"><?php echo $_SESSION['prenom'] . " " . $_SESSION['nom'] ?></span>
-                    <a href="../classes/user.php?signout" class="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">Logout</a>
-                </div>
-            </div>
+
+
+    <!-- Sidebar -->
+<div class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-10">
+    <!-- Logo Section -->
+    <div class="flex items-center p-6 border-b">
+        <img src="../imgs/360_F_323469705_belmsoxt9kj49rxSmOBXpO0gHtfVJvjl-removebg-preview.png" alt="LOGO" class="h-8 w-auto">
+        <span class="ml-2 font-semibold text-lg">Drive & Loc</span>
+    </div>
+    
+    <!-- Navigation Links -->
+    <nav class="mt-6">
+        <div class="px-4 space-y-2">
+            <!-- Dashboard -->
+            <a href="dashboard.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Blog dash -->
+            <a href="../pages/blog_dashboard.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2z"></path>
+                </svg>
+                <span>Blog</span>
+            </a>
         </div>
     </nav>
+
+    <!-- User Section -->
+    <div class="absolute bottom-0 w-full border-t p-4">
+        <div class="flex items-center">
+            <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium text-gray-700"><?php echo $_SESSION['prenom'] . " " . $_SESSION['nom'] ?></p>
+                <a href="../classes/user.php?signout" class="text-xs text-gray-500 hover:text-gray-700">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add margin to main content to accommodate sidebar -->
+<style>
+    .max-w-7xl {
+        margin-left: 16rem; /* 256px = width of sidebar */
+    }
+</style>
 
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 py-6">
