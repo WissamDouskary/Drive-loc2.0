@@ -16,8 +16,17 @@ class Article {
         $this->pdo = $connection->PDOconnect();
     }
 
-    function CreateArticle(){
+    function CreateArticle($user_id, $theme_id, $title, $content){
+        $sql = "INSERT INTO article (user_id, theme_id, title, content, Approved, date_creation)
+                VALUES (:user_id, :theme_id, :title, :content, 'waiting', CURDATE())";
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':theme_id', $theme_id);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':content', $content);
         
+        $stmt->execute();
     }
 
     function UpdateArticle(){

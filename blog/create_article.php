@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require_once '../blog_class/Theme_class.php';
 
 $theme = new Theme();
@@ -75,7 +76,7 @@ $theme = new Theme();
             </div>
 
             <!-- Article Form -->
-            <form class="space-y-6">
+            <form class="space-y-6" method="post" action="../blog_class/push_tags.php">
                 <!-- Title -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Article Title</label>
@@ -98,7 +99,7 @@ $theme = new Theme();
                 <div class="grid grid-cols-2 gap-6">
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Themes</label>
-                        <select class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+                        <select class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none" name="article_theme">
                             <option value="" disabled>Select a Theme</option>
                             <?php
                             $rows = $theme->getAllThemes();
@@ -118,57 +119,18 @@ $theme = new Theme();
                     </div>
                 </div>
 
-                <!-- Text Editor Toolbar -->
-                <div class="border rounded-t-lg bg-gray-50 p-2 editor-toolbar">
-                    <div class="flex flex-wrap items-center">
-                        <button type="button" title="Bold"><i class="fas fa-bold"></i></button>
-                        <button type="button" title="Italic"><i class="fas fa-italic"></i></button>
-                        <button type="button" title="Underline"><i class="fas fa-underline"></i></button>
-                        <div class="w-px h-6 bg-gray-300 mx-2"></div>
-                        <button type="button" title="Heading 1"><i class="fas fa-heading"></i></button>
-                        <button type="button" title="Bullet List"><i class="fas fa-list-ul"></i></button>
-                        <button type="button" title="Numbered List"><i class="fas fa-list-ol"></i></button>
-                        <div class="w-px h-6 bg-gray-300 mx-2"></div>
-                        <button type="button" title="Insert Link"><i class="fas fa-link"></i></button>
-                        <button type="button" title="Insert Image"><i class="fas fa-image"></i></button>
-                        <button type="button" title="Insert Video"><i class="fas fa-video"></i></button>
-                        <div class="w-px h-6 bg-gray-300 mx-2"></div>
-                        <button type="button" title="Quote"><i class="fas fa-quote-right"></i></button>
-                        <button type="button" title="Code Block"><i class="fas fa-code"></i></button>
-                    </div>
-                </div>
-
                 <!-- Text Editor -->
                 <div class="border rounded-b-lg p-4 min-h-[400px]">
                     <textarea 
                         placeholder="Start writing your article..." 
                         class="w-full h-full focus:outline-none resize-none"
+                        name="article_content"
                     ></textarea>
-                </div>
-
-                <!-- SEO Section -->
-                <div class="border-t pt-6 mt-8">
-                    <h3 class="text-xl font-bold mb-4">SEO Settings</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Meta Title</label>
-                            <input type="text" 
-                                   placeholder="Enter SEO title..." 
-                                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Meta Description</label>
-                            <textarea 
-                                placeholder="Enter SEO description..." 
-                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none h-24"
-                            ></textarea>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex justify-end space-x-3 border-t pt-6">
-                    <button type="submit" id="article_submited" class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">Publish Article</button>
+                    <button type="submit" id="article_submited" name="article_submited" class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">Publish Article</button>
                 </div>
             </form>
         </div>
