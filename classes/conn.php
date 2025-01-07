@@ -1,7 +1,7 @@
 <?php 
 
 class DBconnection {
-    protected $dsn = "mysql:host=localhost;dbname=driveloc";
+    protected $dsn = "mysql:host=localhost;dbname=driveloc2";
     protected $user = 'root';
     protected $password = "";
     private $pdo;
