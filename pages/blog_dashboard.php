@@ -3,11 +3,13 @@ require_once '../classes/Categorie.php';
 require_once '../classes/client.php';
 require_once '../classes/vehicule_class.php';
 require_once '../classes/reservation.php';
+require_once '../blog_class/Theme_class.php';
 
 $client = new client();
 $vehicule = new Vehicule();
 $categorie = new Categorie();
 $reservation = new Reservation();
+$theme = new Theme();
 
 
 if(isset($_POST['Category_submit'])){
@@ -86,7 +88,7 @@ if($_SESSION['role_id'] == 1){
 
 
     <!-- Sidebar -->
-<div class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-10">
+<div class="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-2">
     <!-- Logo Section -->
     <div class="flex items-center p-6 border-b">
         <img src="../imgs/360_F_323469705_belmsoxt9kj49rxSmOBXpO0gHtfVJvjl-removebg-preview.png" alt="LOGO" class="h-8 w-auto">
@@ -130,10 +132,9 @@ if($_SESSION['role_id'] == 1){
     </div>
 </div>
 
-<!-- Add margin to main content to accommodate sidebar -->
 <style>
     .max-w-7xl {
-        margin-left: 16rem; /* 256px = width of sidebar */
+        margin-left: 16rem;
     }
 </style>
 
@@ -144,9 +145,9 @@ if($_SESSION['role_id'] == 1){
             <div class="bg-white p-6 rounded-lg shadow-md stat-card">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm">Total Categories</p>
+                        <p class="text-gray-500 text-sm">Total Themes</p>
                         <h3 class="text-2xl font-bold mt-1">
-                            <?php echo count($categorie->showCategorie()); ?>
+                            <?php echo count($theme->getAllThemes()); ?>
                         </h3>
                     </div>
                     <div class="bg-blue-100 p-3 rounded-full">
@@ -203,7 +204,87 @@ if($_SESSION['role_id'] == 1){
                 <p class="text-green-500 text-sm mt-4">↑ 15% from last month</p>
             </div>
         </div>
+
+        <div class="mb-6 flex space-x-4">
+            <button onclick="openModal('addThemeModal')" class="bg-primary px-4 py-2 rounded-lg hover:bg-yellow-400 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Add Theme
+            </button>
+        </div>
+
+        <!-- show themes on dashboard table -->
+        <div class="bg-white rounded-lg shadow-md mt-6">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-bold">Themes Management</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                    <?php $arrays = $theme->getAllThemes();
+                            foreach($arrays as $array){
+                            ?>
+                        <tr>
+                            <td class="px-6 py-4"><?php echo $array['theme_id'] ?></td>
+                            <td class="px-6 py-4"><?php echo $array['name'] ?></td>
+                            <td class="px-6 py-4"><?php echo $array['description'] ?></td>
+                            <td class="px-6 py-4 flex gap-6">
+                                <button class="text-green-600 hover:text-green-800 mr-2">Edit</button>
+                                <button class="text-red-600 hover:text-red-800">Delete</button>
+                            </td>
+                            <?php } ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+            <!-- Add theme Modal -->
+    <div id="addThemeModal" class="modal z-50">
+        <div class="bg-white rounded-lg w-1/3 mx-auto my-auto p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Add New Category</h3>
+                <button onclick="closeModal('addThemeModal')" class="text-gray-500 hover:text-gray-700">×</button>
+            </div>
+            <form class="space-y-4" method="POST" action="../blog_class/Theme_class.php">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Theme Name</label>
+                    <input type="text" name="theme_name" class="w-full border rounded-lg p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Description</label>
+                    <textarea class="w-full border rounded-lg p-2" name="theme_desc"  rows="3"></textarea>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('addThemeModal')" class="px-4 py-2 border rounded-lg">Cancel</button>
+                    <button type="submit" name="Theme_submit" class="px-4 py-2 bg-primary rounded-lg">Add Theme</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <script>
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
         }

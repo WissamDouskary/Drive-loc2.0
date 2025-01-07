@@ -350,7 +350,7 @@ if($_SESSION['role_id'] == 1){
                     </tbody>
                 </table>
             </div>
-                            </div>
+        </div>
         <!-- Reservations Table -->
         <div class="bg-white rounded-lg shadow-md mt-6">
             <div class="p-6 border-b border-gray-200 flex justify-between items-center">
@@ -420,7 +420,7 @@ if($_SESSION['role_id'] == 1){
         </div>
 
     <!-- Add Vehicle Modal -->
-    <div id="addVehicleModal" class="modal">
+    <div id="addVehicleModal" class="modal z-50">
         <div class="bg-white rounded-lg w-1/2 mx-auto my-auto p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold">Add New Vehicle</h3>
@@ -467,7 +467,7 @@ if($_SESSION['role_id'] == 1){
     </div>
 
         <!-- Edit Vehicle Modal -->
-        <div id="editVehicleModal" class="modal">
+        <div id="editVehicleModal" class="modal z-50">
         <div class="bg-white rounded-lg w-1/2 mx-auto my-auto p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold">Add New Vehicle</h3>
@@ -524,7 +524,7 @@ if($_SESSION['role_id'] == 1){
     </div>
 
     <!-- Add Category Modal -->
-    <div id="addCategoryModal" class="modal">
+    <div id="addCategoryModal" class="modal z-50">
         <div class="bg-white rounded-lg w-1/3 mx-auto my-auto p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold">Add New Category</h3>

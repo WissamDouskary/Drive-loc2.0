@@ -1,8 +1,18 @@
+<?php 
+require_once '../blog_class/Theme_class.php';
+
+$theme = new Theme();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.9.7/dist/tagify.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.7.0/dist/tagify.min.js"></script>
     <title>Drive & Loc - Create Article</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -35,7 +45,7 @@
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-4">
                     <a href="index.php" class="text-2xl font-bold w-8 mr-24">
-                        <img src="/api/placeholder/40/40" alt="Drive & Loc Logo" class="w-12 h-12">
+                        <img src="../imgs/360_F_323469705_belmsoxt9kj49rxSmOBXpO0gHtfVJvjl-removebg-preview.png" alt="Drive & Loc Logo" class="w-12">
                     </a>
                 </div>
                 <div class="hidden md:block">
@@ -47,7 +57,7 @@
                     </ul>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <img src="/api/placeholder/40/40" alt="Profile" class="w-10 rounded-full cursor-pointer">
+                    <img src="../imgs/profilephoto.png" alt="Profile" class="w-10 rounded-full cursor-pointer">
                 </div>
             </div>
         </div>
@@ -60,7 +70,6 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold">Create New Article</h1>
                 <div class="flex space-x-3">
-                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-100">Save Draft</button>
                     <button class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">Publish</button>
                 </div>
             </div>
@@ -72,36 +81,38 @@
                     <label class="block text-gray-700 font-semibold mb-2">Article Title</label>
                     <input type="text" 
                            placeholder="Enter your article title..." 
-                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                           name="artcile_titre"
+                           >
                 </div>
 
                 <!-- Cover Image -->
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Cover Image</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                        <div class="space-y-2">
-                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
-                            <p class="text-gray-500">Drag and drop your cover image here, or</p>
-                            <button class="text-blue-500 hover:text-blue-700">browse files</button>
-                        </div>
-                    </div>
+                <label for="file-upload" class="file-upload-label cursor-pointer inline-block px-4 py-2 bg-yellow-500 text-white rounded-md text-center transition-all hover:bg-yellow-600">
+                        Choose a Image
+                </label>
+                <input type="file" name="article_photo" id="file-upload" class="file-upload hidden">
                 </div>
 
                 <!-- Category and Tags -->
                 <div class="grid grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Category</label>
+                        <label class="block text-gray-700 font-semibold mb-2">Themes</label>
                         <select class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
-                            <option value="">Select a category</option>
-                            <option value="car-reviews">Car Reviews</option>
-                            <option value="travel-stories">Travel Stories</option>
-                            <option value="maintenance">Maintenance Tips</option>
-                            <option value="driving-guide">Driving Guide</option>
+                            <option value="" disabled>Select a Theme</option>
+                            <?php
+                            $rows = $theme->getAllThemes();
+                            foreach($rows as $row){
+                                echo "<option value='". $row['theme_id'] ."' > " . $row['name'] ." ";
+                            }
+                            ?>
                         </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Tags</label>
-                        <input type="text" 
+                        <input type="text"
+                                id="tagsinput"
+                                name="article_Tags"
                                placeholder="Add tags separated by commas..." 
                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
                     </div>
@@ -157,9 +168,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-end space-x-3 border-t pt-6">
-                    <button type="button" class="px-6 py-2 border rounded-lg hover:bg-gray-100">Preview</button>
-                    <button type="button" class="px-4 py-2 border rounded-lg hover:bg-gray-100">Save Draft</button>
-                    <button type="submit" class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">Publish Article</button>
+                    <button type="submit" id="article_submited" class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">Publish Article</button>
                 </div>
             </form>
         </div>
@@ -204,5 +213,48 @@
             </div>
         </div>
     </footer>
+
+    
+
+    <script>
+  function updateLabel() {
+    const fileInput = document.getElementById('file-upload');
+    const fileLabel = document.getElementById('file-label');
+    if (fileInput.files.length > 0) {
+      fileLabel.textContent = fileInput.files[0].name;
+    } else {
+      fileLabel.textContent = "Choose a file";
+    }
+  }
+
+  let input = document.querySelector('input[name=article_Tags]');
+  let tagify = new Tagify(input);
+
+  function getTagName() {
+      return tagify.value.map(tag => tag.value);
+  }
+
+  function sendTagsToDb(tags) {
+    let conn = new XMLHttpRequest();
+    let tagifyTags = tags.join(',');
+
+    conn.open('GET', '../blog_class/push_tags.php?tags=' + tagifyTags, true);
+    conn.send();
+
+    conn.onload = function () {
+        if (conn.status === 200) {
+            let response = JSON.parse(conn.responseText);
+            if (response.success) {
+                alert('Tags saved successfully!');
+            }
+    }
+  }
+}
+  document.querySelector('#article_submited').addEventListener('click', function() {
+      var tags = getTagName();
+      sendTagsToDb(tags);
+  });
+</script>
+
 </body>
 </html>

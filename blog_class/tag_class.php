@@ -12,8 +12,12 @@ class Tag {
         $this->pdo = $connection->PDOconnect();
     }
 
-    function createTag(){
-
+    function createTag($name){
+        $sql = "INSERT INTO tag(name)
+                VALUE (:name)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
     }
 
     function updateTag(){
@@ -24,10 +28,20 @@ class Tag {
 
     }
 
-    function addMultipleTags(){
-
-    }
+    function addMultipleTags($tags) {
+        $stmt_check = $this->pdo->prepare("SELECT * FROM tag WHERE name = :tag_name");
+        $stmt_insert = $this->pdo->prepare("INSERT INTO tag (name, date_creation) VALUES (:tag_name, CURDATE())");
     
+        foreach ($tags as $tag) {
+            $stmt_check->bindParam(':tag_name', $tag);
+            $stmt_check->execute();
+
+            if ($stmt_check->rowCount() == 0) {
+                $stmt_insert->bindParam(':tag_name', $tag);
+                $stmt_insert->execute();
+            }
+        }
+    }
 }
 
 ?>
