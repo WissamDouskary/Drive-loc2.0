@@ -1,6 +1,6 @@
-CREATE DATABASE driveloc;
+CREATE DATABASE driveloc2;
 
-USE driveloc;
+USE driveloc2;
 
 CREATE TABLE role (
     role_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -51,10 +51,55 @@ CREATE TABLE avis (
     date_creation DATE,
     user_id INT NOT NULL,
     vehicule_id INT NOT NULL,
-    status ENUM('active', 'archived');
+    status ENUM('active', 'archived'),
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
     FOREIGN KEY (vehicule_id) REFERENCES vehicule(vehicule_id) ON DELETE CASCADE
 );
+
+CREATE TABLE theme {
+    theme_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(225),
+    description VARCHAR(225),
+    date_creation datetime
+}
+
+CREATE TABLE article {
+    article_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    theme_id INT,
+    title VARCHAR(225),
+    content VARCHAR(225) NOT NULL,
+    Approved BOOLEAN,
+    date_creation datetime,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (theme_id) REFERENCES theme(theme_id) ON DELETE CASCADE 
+};
+
+CREATE TABLE comments {
+    comments_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    article_id INT,
+    content VARCHAR(225) NOT NULL,
+    date_creation datetime,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES article(article_id) ON DELETE CASCADE
+};
+
+CREATE TABLE tag {
+    tag_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    date_creation datetime
+};
+
+CREATE TABLE Article_tag (
+    article_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    CreatedDate DATETIME,
+    PRIMARY KEY (article_id, tag_id),
+    FOREIGN KEY (article_id) REFERENCES article(article_id),
+    FOREIGN KEY (tag_id) REFERENCES tag(tag_id)
+);
+
 
 CREATE VIEW showAllVehicule AS
 SELECT v.*, c.nom
