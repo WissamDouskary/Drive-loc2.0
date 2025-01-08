@@ -39,8 +39,25 @@ class Tag {
             if ($stmt_check->rowCount() == 0) {
                 $stmt_insert->bindParam(':tag_name', $tag);
                 $stmt_insert->execute();
+                
             }
+            $lastinert[]=  $this->pdo->lastInsertId();
         }
+        return $lastinert;
+       
+    }
+
+    function showSeggTags($searchInput) {
+        $sql = "SELECT * FROM tag WHERE name LIKE :searchInput";
+    
+        $stmt = $this->pdo->prepare($sql);
+    
+        $forlikeSearch = "%" . $searchInput . "%";
+        $stmt->bindValue(':searchInput', $forlikeSearch, PDO::PARAM_STR);
+    
+        $stmt->execute();
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

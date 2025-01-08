@@ -27,6 +27,8 @@ class Article {
         $stmt->bindParam(':content', $content);
         
         $stmt->execute();
+
+        return $this->pdo->lastInsertId();
     }
 
     function UpdateArticle(){
