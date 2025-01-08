@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+require_once '../blog_class/artcile_class.php';
+
+$article = new Article();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,8 +88,12 @@ session_start();
 
     <main class="max-w-4xl mx-auto px-4 py-8">
         <!-- Article Header -->
+         <?php 
+        $rows = $article->getAllArticles_Tags();
+        foreach($rows as $row){
+         ?>
         <article class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-            <img src="/api/placeholder/1200/600" alt="Article Cover" class="w-full h-96 object-cover">
+            <img src="<?php echo $row['article_image'] ?>" alt="Article Cover" class="w-full h-96 object-cover">
             
             <div class="p-8">
                 <!-- Article Meta -->
@@ -93,11 +101,11 @@ session_start();
                     <div class="flex items-center space-x-4">
                         <img src="/api/placeholder/50/50" alt="Author" class="w-12 h-12 rounded-full">
                         <div>
-                            <h3 class="font-semibold">John Doe</h3>
-                            <p class="text-gray-500 text-sm">Posted on March 15, 2024 • 5 min read</p>
+                            <h3 class="font-semibold"><?php echo $row['name'] ?></h3>
+                            <p class="text-gray-500 text-sm"><?php echo $row[''] ?></p>
                         </div>
                     </div>
-                    <div class="flex space-x-3">
+                    <!-- <div class="flex space-x-3">
                         <button class="like-button flex items-center space-x-2 text-gray-500 hover:text-red-500">
                             <span>❤️</span>
                             <span>24</span>
@@ -106,11 +114,11 @@ session_start();
                             <span>📤</span>
                             <span>Share</span>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Article Content -->
-                <h1 class="text-4xl font-bold mb-4">Top 10 Road Trip Destinations in 2024</h1>
+                <h1 class="text-4xl font-bold mb-4"><?php echo $row[''] ?></h1>
                 
                 <div class="flex flex-wrap gap-2 mb-6">
                     <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">#RoadTrips</span>
@@ -119,12 +127,15 @@ session_start();
 
                 <div class="prose max-w-none">
                     <p class="text-gray-600 mb-4">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    <?php echo $row[''] ?>
                     </p>
                     <!-- More article content -->
                 </div>
             </div>
         </article>
+        <?php 
+        }
+         ?>
 
         <!-- Comments Section -->
         <section class="bg-white rounded-xl shadow-lg p-8">
