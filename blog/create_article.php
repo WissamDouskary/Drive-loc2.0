@@ -12,8 +12,9 @@ $theme = new Theme();
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.9.7/dist/tagify.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.7.0/dist/tagify.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" integrity="sha512-xmGTNt20S0t62wHLmQec2DauG9T+owP9e6VU8GigI0anN7OXLip9i7IwEhelasml2osdxX71XcYm6BQunTQeQg==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous"></script>
     <title>Drive & Loc - Create Article</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -37,6 +38,11 @@ $theme = new Theme();
         .editor-toolbar button:hover {
             background-color: #f3f4f6;
         }
+        .bootstrap-tagsinput .tag {
+   background: red;
+   padding: 4px;
+   font-size: 14px;
+}
     </style>
 </head>
 <body class="bg-gray-50">
@@ -76,7 +82,7 @@ $theme = new Theme();
             </div>
 
             <!-- Article Form -->
-            <form class="space-y-6" method="post" action="../blog_class/push_tags.php">
+            <form class="space-y-6" method="post" action="../blog_class/submit_form.php">
                 <!-- Title -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Article Title</label>
@@ -112,8 +118,8 @@ $theme = new Theme();
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Tags</label>
                         <input type="text"
-                                id="tagsinput"
-                                name="article_Tags"
+                                id="tags-input"
+                                name="tags-input"
                                placeholder="Add tags separated by commas..." 
                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
                     </div>
@@ -189,34 +195,15 @@ $theme = new Theme();
     }
   }
 
-  let input = document.querySelector('input[name=article_Tags]');
-  let tagify = new Tagify(input);
-
-  function getTagName() {
-      return tagify.value.map(tag => tag.value);
-  }
-
-  function sendTagsToDb(tags) {
-    let conn = new XMLHttpRequest();
-    let tagifyTags = tags.join(',');
-
-    conn.open('GET', '../blog_class/push_tags.php?tags=' + tagifyTags, true);
-    conn.send();
-
-    conn.onload = function () {
-        if (conn.status === 200) {
-            let response = JSON.parse(conn.responseText);
-            if (response.success) {
-                alert('Tags saved successfully!');
-            }
-    }
-  }
-}
-  document.querySelector('#article_submited').addEventListener('click', function() {
-      var tags = getTagName();
-      sendTagsToDb(tags);
+  $(document).ready(function(){        
+  let tagInputEle = $('#tags-input');
+  tagInputEle.tagsinput({
+    'height' : '90px',
+    'width' : '100px'
   });
-</script>
+});
 
+
+</script>
 </body>
 </html>
