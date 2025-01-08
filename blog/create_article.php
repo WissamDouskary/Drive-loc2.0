@@ -57,10 +57,10 @@ $theme = new Theme();
                 </div>
                 <div class="hidden md:block">
                     <ul class="flex space-x-8">
-                        <li><a href="index.php" class="hover:text-gray-700">Home</a></li>
-                        <li><a href="vehicles.php" class="hover:text-gray-700">Cars</a></li>
-                        <li><a href="blog.php" class="hover:text-gray-700">Blog</a></li>
-                        <li><a href="my-articles.php" class="hover:text-gray-700">My Articles</a></li>
+                        <li><a href="../index.php" class="hover:text-gray-700">Home</a></li>
+                        <li><a href="../pages/vehicles.php" class="hover:text-gray-700">Cars</a></li>
+                        <li><a href="../blog/blog_index.php" class="hover:text-gray-700">Blog</a></li>
+                        <li><a href="../blog/myarticles.php" class="hover:text-gray-700">My Articles</a></li>
                     </ul>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -82,7 +82,7 @@ $theme = new Theme();
             </div>
 
             <!-- Article Form -->
-            <form class="space-y-6" method="post" action="../blog_class/submit_form.php">
+            <form id="myForm" class="space-y-6" method="post" enctype="multipart/form-data" action="../blog_class/submit_form.php">
                 <!-- Title -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Article Title</label>
@@ -94,13 +94,9 @@ $theme = new Theme();
                 </div>
 
                 <!-- Cover Image -->
-                <div>
-                <label for="file-upload" class="file-upload-label cursor-pointer inline-block px-4 py-2 bg-yellow-500 text-white rounded-md text-center transition-all hover:bg-yellow-600">
-                        Choose a Image
-                </label>
-                <input type="file" name="article_photo" id="file-upload" class="file-upload hidden">
+                <div class="flex">
+                <input type="file" name="article_photo" id="file-upload" class="file-upload">
                 </div>
-
                 <!-- Category and Tags -->
                 <div class="grid grid-cols-2 gap-6">
                     <div>
@@ -121,7 +117,9 @@ $theme = new Theme();
                                 id="tags-input"
                                 name="tags-input"
                                placeholder="Add tags separated by commas..." 
+                               data-role="tagsinput"
                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+                               
                     </div>
                 </div>
 
@@ -185,25 +183,29 @@ $theme = new Theme();
     
 
     <script>
-  function updateLabel() {
-    const fileInput = document.getElementById('file-upload');
-    const fileLabel = document.getElementById('file-label');
-    if (fileInput.files.length > 0) {
-      fileLabel.textContent = fileInput.files[0].name;
-    } else {
-      fileLabel.textContent = "Choose a file";
-    }
-  }
+  $(document).ready(function () {
 
-  $(document).ready(function(){        
-  let tagInputEle = $('#tags-input');
-  tagInputEle.tagsinput({
-    'height' : '90px',
-    'width' : '100px'
+    $('#tags-input').tagsinput();
+
+
+    var formSubmitted = false;
+
+    $('#myForm').submit(function (e) {
+      if (formSubmitted) {
+        e.preventDefault(); 
+        return;
+      }
+      
+ 
+      formSubmitted = true;
+
+      
+      var tags = $('#tags').tagsinput('items');
+      console.log(tags); 
+      
+   
+    });
   });
-});
-
-
 </script>
 </body>
 </html>

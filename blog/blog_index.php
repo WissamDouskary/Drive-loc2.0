@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+require_once '../blog_class/artcile_class.php';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,24 +140,31 @@ session_start();
             </div>
             
             <!-- Article Cards -->
+           
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Article Card -->
+                  <?php 
+                $rows = Article::getAllArticles_Tags();
+
+                foreach($rows as $row){
+                    $tags = Article::gettagsForArticle($row['article_id']);
+
+                ?>
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden card-animation">
-                    <img src="/api/placeholder/600/300" alt="Article" class="w-full h-48 object-cover">
+                    <img src="<?php echo $row['article_image'] ?>" alt="Article" class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-2">
-                                <img src="/api/placeholder/40/40" alt="Author" class="w-8 h-8 rounded-full">
-                                <span class="text-sm">John Doe</span>
-                            </div>
-                            <span class="text-sm text-gray-500">2 hours ago</span>
+                        <div class="flex items-center justify-end mb-4">
+                            <span class="text-sm text-gray-500"><?php echo $row['date_creation'] ?></span>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">Top 10 Road Trip Destinations in 2024</h3>
-                        <p class="text-gray-600 mb-4">Discover the most scenic routes and must-visit locations for your next adventure...</p>
+                        <h3 class="text-xl font-bold mb-2"><?php echo $row['title'] ?></h3>
+                        <p class="text-gray-600 mb-4"><?php echo $row['content'] ?></p>
                         <div class="flex items-center justify-between">
                             <div class="flex space-x-2">
-                                <span class="text-sm bg-gray-100 px-2 py-1 rounded">#RoadTrips</span>
-                                <span class="text-sm bg-gray-100 px-2 py-1 rounded">#Travel</span>
+                            
+                            <?php foreach ($tags as $tag) { ?>
+                              <span class='text-sm bg-gray-100 px-2 py-1 rounded'><?php echo $tag['name']?></span>
+                            <?php } ?>
+                            
                             </div>
                             <div class="flex items-center space-x-4">
                                 <button class="text-gray-500 hover:text-red-500">
@@ -165,11 +175,11 @@ session_start();
                         </div>
                     </div>
                 </div>
-
-                <!-- Additional Article Cards (Similar Structure) -->
-                <!-- More cards... -->
-
+                <?php 
+                }
+                ?>
             </div>
+           
 
             <!-- Pagination -->
             <div class="flex justify-center space-x-2 mt-8">

@@ -7,20 +7,28 @@ class ArticleTag {
     public $CreatedDate;
     private $pdo;
 
-    function __construct(){
-    $connection = new DBconnection();
-    $this->pdo = $connection->PDOconnect();
+    static function getConnection(){
+        $connection = new DBconnection();
+        return $connection->PDOconnect();
     }
 
-    function addTagToArticle($tag_id, $article_id){
+    function __construct($tag_ids, $article_id){
+    $connection = new DBconnection();
+    $this->pdo = $connection->PDOconnect();
+    $this->article_id = $article_id;
+    $this->tag_id = $tag_ids;
+    }
+
+    function addTagToArticle(){
         $sql = "INSERT INTO article_tag (article_id, tag_id, CreatedDate)
                 VALUES (:article_id, :tag_id, CURDATE())";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':article_id', $article_id);
-        foreach($tag_id as $tagID){
-            $stmt->bindParam('tag_id', $tagID);
-            $stmt->execute();
-        }
+        $pdo = self::getConnection();
+        $stmtt = $pdo->prepare($sql);
+    
+        $stmtt->bindParam(':article_id', $this->article_id);
+        $stmtt->bindParam(':tag_id', $this->tag_id);
+    
+        $stmtt->execute();
     }
 
     function filtrerParTag(){

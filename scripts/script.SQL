@@ -123,3 +123,26 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+-- for comment of articles 
+SELECT a.*, t.*, c.*, at.tag_id FROM article a LEFT JOIN theme t ON a.theme_id = t.theme_id LEFT JOIN comments c ON a.article_id = c.article_id LEFT JOIN Article_tag at ON a.article_id = at.article_id;
+
+-- articles with details and themes
+SELECT a.*, t.*
+FROM article a
+LEFT JOIN theme t ON a.theme_id = t.theme_id;
+
+-- articles with tags : 
+SELECT a.*, t.*, at.tag_id, tag.name as tag_name
+FROM article a
+LEFT JOIN theme t ON a.theme_id = t.theme_id
+LEFT JOIN Article_tag at ON a.article_id = at.article_id
+LEFT JOIN tag ON at.tag_id = tag.tag_id;
+
+SELECT a.article_id, a.title, a.content, a.article_image, a.date_creation, GROUP_CONCAT(t.name SEPARATOR ',') AS tags
+FROM article a
+LEFT JOIN Article_tag at ON a.article_id = at.article_id
+LEFT JOIN tag t ON at.tag_id = t.tag_id
+GROUP BY a.article_id;
+
+SELECT t.* from tag t INNER join article_tag art on art.tag_id = t.tag_id where art.article_id = :article_id;
