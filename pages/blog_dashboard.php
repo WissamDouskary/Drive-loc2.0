@@ -4,12 +4,12 @@ require_once '../classes/client.php';
 require_once '../classes/vehicule_class.php';
 require_once '../classes/reservation.php';
 require_once '../blog_class/Theme_class.php';
+require_once '../blog_class/artcile_class.php';
 
 $client = new client();
 $vehicule = new Vehicule();
 $categorie = new Categorie();
 $reservation = new Reservation();
-$theme = new Theme();
 
 
 if(isset($_POST['Category_submit'])){
@@ -147,7 +147,7 @@ if($_SESSION['role_id'] == 1){
                     <div>
                         <p class="text-gray-500 text-sm">Total Themes</p>
                         <h3 class="text-2xl font-bold mt-1">
-                            <?php echo count($theme->getAllThemes()); ?>
+                            <?php echo count(Theme::getAllThemes()); ?>
                         </h3>
                     </div>
                     <div class="bg-blue-100 p-3 rounded-full">
@@ -231,7 +231,7 @@ if($_SESSION['role_id'] == 1){
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                    <?php $arrays = $theme->getAllThemes();
+                    <?php $arrays = Theme::getAllThemes();
                             foreach($arrays as $array){
                             ?>
                         <tr>
@@ -274,6 +274,61 @@ if($_SESSION['role_id'] == 1){
         </div>
     </div>
 
+<!-- Article Management Section -->
+
+<div class="bg-white rounded-lg shadow-md mt-6">
+    <div class="p-6 border-b border-gray-200">
+        <h2 class="text-xl font-bold">Article Management</h2>
+        <p class="text-gray-600 mt-1">Review and manage submitted articles</p>
+    </div>
+    
+    <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Article Card -->
+             <?php
+             $rows = Article::getallArticles();
+             foreach($rows as $row){
+             ?>
+             
+            <div class="bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg"><?php echo $row['title'] ?></h3>
+                        <p class="text-gray-600 text-sm mt-1"><?php echo $row['nom'] . " " . $row['prenom'] ?></p>
+                        <div class="flex items-center mt-2">
+                            <span class="text-xs text-gray-500"><?php echo $row['date_creation'] ?></span>
+                            <span class="mx-2 text-gray-300">•</span>
+                            <span class="text-xs text-yellow-600"><?php echo $row['Approved'] ?></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-gray-600 mt-3 text-sm line-clamp-3">
+                    <?php echo $row['content'] ?>
+                </p>
+                
+                <div class="flex justify-end space-x-3 mt-4">
+                    <form method="POST" class="inline">
+                        <input type="hidden" name="article_id" value="<?php echo $row['article_id'] ?>">
+                        <button type="submit" name="refuse_article" class="px-3 py-1 text-sm text-red-600 border border-red-600 rounded hover:bg-red-50">
+                            Refuse
+                        </button>
+                    </form>
+                    <form method="POST" class="inline">
+                        <input type="hidden" name="article_id" value="<?php echo $row['article_id'] ?>">
+                        <button type="submit" name="approve_article" class="px-3 py-1 text-sm text-white bg-green-600 rounded hover:bg-green-700">
+                            Approve
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <?php
+            }
+            ?>
+        </div>
+    </div>
+</div>
 
     <script>
 

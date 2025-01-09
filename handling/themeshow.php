@@ -60,7 +60,7 @@ require_once '../blog_class/Theme_class.php';
             <a href="../pages/reservation_hestorie.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white ">My Reservations</a>
           </li>
           <li>
-            <a href="../blog/create_article.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white ">Create Article</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white ">Create Article</a>
           </li>
           <li>
             <a href="../classes/user.php?signout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white ">Sign out</a>
@@ -83,19 +83,18 @@ require_once '../blog_class/Theme_class.php';
     <div class="bg-primary py-12">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex flex-col items-center space-y-6">
-                <h1 class="text-4xl font-bold text-center">Drive & Loc Community Blog</h1>
-                <div class="w-full max-w-2xl">
-                    <div class="flex gap-4">
-                        <input type="text" placeholder="Search articles..." class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                        <button class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700">Search</button>
-                    </div>
-                </div>
-                <!-- Tags Filter -->
+                <?php 
+                if(isset($_POST['themeId'])){ 
+                $rows = Article::getArticlesByTheme($_POST['themeId']);
+                foreach($rows as $row){
+                ?>
+                <h1 class="text-4xl font-bold text-center"><?php echo $row['name'] ?></h1>
+                <?php } } ?>
                 <div class="flex flex-wrap gap-2 justify-center">
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#CarMaintenance</span>
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#RoadTrips</span>
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#LuxuryCars</span>
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#TravelTips</span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
                 </div>
             </div>
         </div>
@@ -103,30 +102,11 @@ require_once '../blog_class/Theme_class.php';
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-12">
-        <!-- Theme Selection -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Popular Themes</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <?php
-                $rows = Theme::getAllThemes();
-                foreach($rows as $row){
-            ?>
-            <form action="../handling/themeshow.php" method="post" class="text-center">
-                <div class="">
-                    <input type="hidden" name="themeId" value="<?php echo $row['theme_id'] ?>">
-                    <button style="width : 220px" type="submit" class="bg-white p-4 rounded-lg shadow text-center cursor-pointer hover:shadow-lg transition-shadow "><?php echo $row['name'] ?></button>
-                </div>
-            </form>
-            <?php 
-            }
-            ?>
-            </div>
-        </div>
 
         <!-- Featured Articles -->
         <div class="mb-12">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Featured Articles</h2>
+                <h2 class="text-2xl font-bold">Theme Articles</h2>
                 <div class="flex items-center space-x-2">
                     <label>Show:</label>
                     <select class="border rounded px-2 py-1">
@@ -142,7 +122,7 @@ require_once '../blog_class/Theme_class.php';
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Article Card -->
                   <?php 
-                $rows = Article::getAllArticles_Tags();
+                $rows = Article::getArticlesByTheme($_POST['themeId']);
 
                 foreach($rows as $row){
                     $tags = Article::gettagsForArticle($row['article_id']);
@@ -151,8 +131,7 @@ require_once '../blog_class/Theme_class.php';
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden card-animation">
                     <img src="<?php echo $row['article_image'] ?>" alt="Article" class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm text-gray-500"><?php echo $row['nom'] . " " . $row['prenom'] ?></span>
+                        <div class="flex items-center justify-end mb-4">
                             <span class="text-sm text-gray-500"><?php echo $row['date_creation'] ?></span>
                         </div>
                         <h3 class="text-xl font-bold mb-2"><?php echo $row['title'] ?></h3>
@@ -165,13 +144,9 @@ require_once '../blog_class/Theme_class.php';
                             <?php } ?>
                             
                             </div>
-                            <!-- see article details form -->
-                            <form action="../blog/article.php" method="POST">
                             <div class="flex items-center space-x-4">
-                                <input type="submit" value="see Article" class="cursor-pointer">
-                                <input type="hidden" value="<?php echo $row['article_id'] ?>" name="article_name">
+                                <input type="button" value="see Article">
                             </div>
-                            </form>
                         </div>
                     </div>
                 </div>

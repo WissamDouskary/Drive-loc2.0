@@ -146,7 +146,7 @@ if($_SESSION['role_id'] == 1){
                     <div>
                         <p class="text-gray-500 text-sm">Total Categories</p>
                         <h3 class="text-2xl font-bold mt-1">
-                            <?php echo count($categorie->showCategorie()); ?>
+                        <?php echo count($categorie->showCategorie()); ?>
                         </h3>
                     </div>
                     <div class="bg-blue-100 p-3 rounded-full">

@@ -29,23 +29,28 @@ class Tag {
     }
 
     function addMultipleTags($tags) {
-        $stmt_check = $this->pdo->prepare("SELECT * FROM tag WHERE name = :tag_name");
+        $stmt_check = $this->pdo->prepare("SELECT tag_id FROM tag WHERE name = :tag_name");
         $stmt_insert = $this->pdo->prepare("INSERT INTO tag (name, date_creation) VALUES (:tag_name, CURDATE())");
+    
+        $lastInsertIds = [];
     
         foreach ($tags as $tag) {
             $stmt_check->bindParam(':tag_name', $tag);
             $stmt_check->execute();
-
+    
             if ($stmt_check->rowCount() == 0) {
                 $stmt_insert->bindParam(':tag_name', $tag);
                 $stmt_insert->execute();
-                
+                $lastInsertIds[] = $this->pdo->lastInsertId();
+            } else {
+                $existingTag = $stmt_check->fetch(PDO::FETCH_ASSOC);
+                $lastInsertIds[] = $existingTag['tag_id'];
             }
-            $lastinert[]=  $this->pdo->lastInsertId();
         }
-        return $lastinert;
-       
+    
+        return $lastInsertIds;
     }
+    
 
     function showSeggTags($searchInput) {
         $sql = "SELECT * FROM tag WHERE name LIKE :searchInput";

@@ -3,7 +3,6 @@ session_start();
 
 require_once '../blog_class/artcile_class.php';
 
-$article = new Article();
 
 ?>
 <!DOCTYPE html>
@@ -89,7 +88,7 @@ $article = new Article();
     <main class="max-w-4xl mx-auto px-4 py-8">
         <!-- Article Header -->
          <?php 
-        $rows = $article->getAllArticles_Tags();
+        $rows = Article::getSpecifiqueVehicule($_POST['article_name']);
         foreach($rows as $row){
          ?>
         <article class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
@@ -98,13 +97,6 @@ $article = new Article();
             <div class="p-8">
                 <!-- Article Meta -->
                 <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center space-x-4">
-                        <img src="/api/placeholder/50/50" alt="Author" class="w-12 h-12 rounded-full">
-                        <div>
-                            <h3 class="font-semibold"><?php echo $row['name'] ?></h3>
-                            <p class="text-gray-500 text-sm"><?php echo $row[''] ?></p>
-                        </div>
-                    </div>
                     <!-- <div class="flex space-x-3">
                         <button class="like-button flex items-center space-x-2 text-gray-500 hover:text-red-500">
                             <span>❤️</span>
@@ -118,16 +110,20 @@ $article = new Article();
                 </div>
 
                 <!-- Article Content -->
-                <h1 class="text-4xl font-bold mb-4"><?php echo $row[''] ?></h1>
+                <h1 class="text-4xl font-bold mb-4"><?php echo $row['title'] ?></h1>
                 
                 <div class="flex flex-wrap gap-2 mb-6">
-                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">#RoadTrips</span>
-                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">#Travel</span>
+                    <?php 
+                    $tags = Article::gettagsForArticle($_POST['article_name']);
+                    foreach($tags as $tag){
+                    ?>
+                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm"><?php echo $tag['name'] ?></span>
+                    <?php } ?>
                 </div>
 
                 <div class="prose max-w-none">
                     <p class="text-gray-600 mb-4">
-                    <?php echo $row[''] ?>
+                    <?php echo $row['content'] ?>
                     </p>
                     <!-- More article content -->
                 </div>
