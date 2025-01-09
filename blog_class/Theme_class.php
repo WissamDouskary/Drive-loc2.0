@@ -49,6 +49,19 @@ class Theme {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
+
+    static function getThemeNmme($themeID){
+        $sql = "SELECT * FROM theme
+                WHERE theme_id = :themeID";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':themeID', $themeID);
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 
 if(isset($_POST['Theme_submit'])){

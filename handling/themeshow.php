@@ -85,11 +85,10 @@ require_once '../blog_class/Theme_class.php';
             <div class="flex flex-col items-center space-y-6">
                 <?php 
                 if(isset($_POST['themeId'])){ 
-                $rows = Article::getArticlesByTheme($_POST['themeId']);
-                foreach($rows as $row){
+                $rows = Theme::getThemeNmme($_POST['themeId']);
                 ?>
-                <h1 class="text-4xl font-bold text-center"><?php echo $row['name'] ?></h1>
-                <?php } } ?>
+                <h1 class="text-4xl font-bold text-center"><?php echo $rows['name'] ?></h1>
+                <?php  } ?>
                 <div class="flex flex-wrap gap-2 justify-center">
                     <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
                     <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
@@ -144,9 +143,13 @@ require_once '../blog_class/Theme_class.php';
                             <?php } ?>
                             
                             </div>
+
+                            <form action="../blog/article.php" method="POST">
                             <div class="flex items-center space-x-4">
-                                <input type="button" value="see Article">
+                                <input type="submit" value="see Article" class="cursor-pointer">
+                                <input type="hidden" value="<?php echo $row['article_id'] ?>" name="article_name">
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
