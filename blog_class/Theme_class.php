@@ -8,16 +8,17 @@ class Theme {
     public $CreatedDate;
     private $pdo;
 
-    function __construct() {
+    static function getConnection(){
         $connection = new DBconnection();
-        $this->pdo = $connection->PDOconnect();
+        return $connection->PDOconnect();
     }
 
-    function createTheme($name, $description){
+    function __construct($name, $description) {
         $this->name = $name;
         $this->description = $description;
-        
+    }
 
+    function createTheme(){
         $sql = "INSERT INTO theme(name, description, date_creation)
                 VALUES (:name, :description, CURDATE())";
         
@@ -40,9 +41,10 @@ class Theme {
 
     }
 
-    function getAllThemes(){
-        $sql = "SELECT * FROM theme";
-        $stmt = $this->pdo->prepare($sql);
+    static function getAllThemes(){
+        $sql = "SELECT * FROM theme LIMIT 4";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
         if($stmt->execute()){
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -53,8 +55,8 @@ if(isset($_POST['Theme_submit'])){
     $theme_name = $_POST['theme_name'];
     $theme_desc = $_POST['theme_desc'];
 
-    $theme = new Theme();
+    $theme = new Theme($theme_name, $theme_desc);
 
-    $theme->createTheme($theme_name, $theme_desc);
+    $theme->createTheme();
 }
 ?>

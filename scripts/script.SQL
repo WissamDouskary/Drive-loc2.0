@@ -146,3 +146,5 @@ LEFT JOIN tag t ON at.tag_id = t.tag_id
 GROUP BY a.article_id;
 
 SELECT t.* from tag t INNER join article_tag art on art.tag_id = t.tag_id where art.article_id = :article_id;
+
+SELECT SUBSTRING(description, 1, 100) AS short_description FROM your_table;

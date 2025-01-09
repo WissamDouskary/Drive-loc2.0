@@ -25,9 +25,11 @@ class Article {
         $this->article_image = $article_image;
         $this->content = $content;
     }
+
     function getId(){
         return $this->article_id;
     }
+
     function CreateArticle(){
         $sql = "INSERT INTO article (user_id, theme_id, title, article_image, content, Approved, date_creation)
                 VALUES (:user_id, :theme_id, :title, :article_image, :content, 'waiting', CURDATE())";
@@ -78,8 +80,24 @@ class Article {
 
     }
 
+    static function getallArticles(){
+        $sql = "SELECT a.*, u.nom, u.prenom
+                FROM article a
+                LEFT JOIN user u ON a.user_id = u.user_id";
+       
+        $pdo = self::getConnection();
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     static function getAllArticles_Tags(){
-        $sql = "SELECT * from article";
+        $sql = "SELECT a.*, u.nom, u.prenom
+                FROM article a
+                LEFT JOIN user u ON a.user_id = u.user_id
+                WHERE Approved = 'approved'";
        
         $pdo = self::getConnection();
 
@@ -102,5 +120,34 @@ class Article {
     function ArticlesPagination(){
 
     }
+
+    static function getArticlesByTheme($theme_id){
+        $sql = "SELECT a.*, t.*
+                FROM article a
+                LEFT JOIN theme t ON a.theme_id = t.theme_id
+                WHERE t.theme_id = :theme_id";
+
+        $pdo = self::getConnection();
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':theme_id', $theme_id);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    static function getSpecifiqueVehicule($article_id){
+        $sql = "SELECT * FROM article WHERE article_id = :article_id";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':article_id', $article_id);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

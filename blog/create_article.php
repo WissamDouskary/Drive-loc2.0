@@ -2,7 +2,6 @@
 session_start();
 require_once '../blog_class/Theme_class.php';
 
-$theme = new Theme();
 
 ?>
 
@@ -104,7 +103,7 @@ $theme = new Theme();
                         <select class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none" name="article_theme">
                             <option value="" disabled>Select a Theme</option>
                             <?php
-                            $rows = $theme->getAllThemes();
+                            $rows = Theme::getAllThemes();
                             foreach($rows as $row){
                                 echo "<option value='". $row['theme_id'] ."' > " . $row['name'] ." ";
                             }
@@ -185,26 +184,10 @@ $theme = new Theme();
     <script>
   $(document).ready(function () {
 
-    $('#tags-input').tagsinput();
-
-
-    var formSubmitted = false;
-
-    $('#myForm').submit(function (e) {
-      if (formSubmitted) {
-        e.preventDefault(); 
-        return;
-      }
-      
- 
-      formSubmitted = true;
-
-      
-      var tags = $('#tags').tagsinput('items');
-      console.log(tags); 
-      
-   
+    $('#tags-input').tagsinput({
+        
     });
+
   });
 </script>
 </body>
