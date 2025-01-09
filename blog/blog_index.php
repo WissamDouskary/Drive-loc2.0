@@ -86,16 +86,16 @@ require_once '../blog_class/Theme_class.php';
                 <h1 class="text-4xl font-bold text-center">Drive & Loc Community Blog</h1>
                 <div class="w-full max-w-2xl">
                     <div class="flex gap-4">
-                        <input type="text" placeholder="Search articles..." class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <input id="searchBar" type="text" placeholder="Search articles..." class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-yellow-400">
                         <button class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700">Search</button>
                     </div>
                 </div>
                 <!-- Tags Filter -->
                 <div class="flex flex-wrap gap-2 justify-center">
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#CarMaintenance</span>
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#RoadTrips</span>
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#LuxuryCars</span>
-                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100">#TravelTips</span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
+                    <span class="bg-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100"></span>
                 </div>
             </div>
         </div>
@@ -139,9 +139,9 @@ require_once '../blog_class/Theme_class.php';
             
             <!-- Article Cards -->
            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Article Card -->
-                  <?php 
+                <?php 
                 $rows = Article::getAllArticles_Tags();
 
                 foreach($rows as $row){
@@ -245,6 +245,74 @@ document.getElementById('user-menu-button').addEventListener('click', function (
         isModalOpen = true;
     }
 });
-    </script>
+
+let searchInput = document.getElementById('searchBar');
+
+searchInput.addEventListener('input', function(){
+    let searchValue = searchInput.value;
+    let conn = new XMLHttpRequest();
+    
+    conn.open('GET', `../handling/search_handling.php?ArticleTyped=${searchValue}` , true);
+
+    conn.send();
+
+    conn.onload = function(){
+        if(conn.status === 200){
+        let Articles = JSON.parse(conn.responseText);
+        
+        let articlesContainer = document.getElementById('articlesContainer');
+
+        articlesContainer.innerHTML = "";
+
+        Articles.forEach(function(article) {
+                let tagConn = new XMLHttpRequest();
+                tagConn.open('GET', `../handling/getTags.php?article_id=${article.article_id}`, true);
+                tagConn.send();
+                tagConn.onload = function() {
+                    if (tagConn.status === 200) {
+                        let tags = JSON.parse(tagConn.responseText);
+                        let tagsHTML = '';
+
+                        tags.forEach(function(tag) {
+                            tagsHTML += `<span class="text-sm bg-gray-100 px-2 py-1 rounded">${tag.name}</span> `;
+                        });
+
+                        let articleHTML = `
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden card-animation">
+                                <img src="${article.article_image}" alt="Article" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="text-sm text-gray-500">${article.nom} ${article.prenom}</span>
+                                        <span class="text-sm text-gray-500">${article.date_creation}</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-2">${article.title}</h3>
+                                    <p class="text-gray-600 mb-4">${article.content}</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex space-x-2">
+                                            ${tagsHTML}
+                                        </div>
+                                        <!-- see article details form -->
+                                        <form action="../blog/article.php" method="POST">
+                                            <div class="flex items-center space-x-4">
+                                                <input type="submit" value="see Article" class="cursor-pointer">
+                                                <input type="hidden" value="${article.article_id}" name="article_name">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        articlesContainer.innerHTML += articleHTML;
+                    }
+                }
+
+                
+            });
+        }
+    }
+});
+
+</script>
 </body>
 </html>

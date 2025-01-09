@@ -97,8 +97,21 @@ class Article {
         $stmt->execute();
     }
 
-    function searchByTitle(){
+    static function searchByTitle($searchValue){
+        $sql = "SELECT a.*, u.nom, u.prenom
+                FROM article a
+                LEFT JOIN user u ON a.user_id = u.user_id 
+                WHERE title LIKE :searchValue AND Approved = 'approved'";
 
+        $Likefor = "%" . $searchValue . "%";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+        
+        $stmt->bindParam(':searchValue', $Likefor);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     static function getallArticles(){
