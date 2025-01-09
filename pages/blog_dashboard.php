@@ -52,6 +52,24 @@ if(isset($_POST['refuse_reservation'])) {
     }
 }
 
+if(isset($_POST['article_id']) && isset($_POST['approve_article'])){
+    $article_id = $_POST['article_id'];
+
+    Article::ApprouverArticle($article_id);
+
+    header('Location: ../pages/blog_dashboard.php');
+    exit();
+}
+
+if(isset($_POST['article_id']) && isset($_POST['refuse_article'])){
+    $article_id = $_POST['article_id'];
+
+    Article::RefuseArticle($article_id);
+
+    header('Location: ../pages/blog_dashboard.php');
+    exit();
+}
+
 
 if($_SESSION['role_id'] == 1){
 ?>
@@ -288,6 +306,7 @@ if($_SESSION['role_id'] == 1){
              <?php
              $rows = Article::getallArticles();
              foreach($rows as $row){
+                $tags = Article::gettagsForArticle($row['article_id']);
              ?>
              
             <div class="bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
@@ -298,14 +317,24 @@ if($_SESSION['role_id'] == 1){
                         <div class="flex items-center mt-2">
                             <span class="text-xs text-gray-500"><?php echo $row['date_creation'] ?></span>
                             <span class="mx-2 text-gray-300">•</span>
+                            <?php if($row['Approved'] == 'approved'){ ?>
+                            <span class="text-xs text-green-600"><?php echo $row['Approved'] ?></span>
+                            <?php }elseif($row['Approved'] == 'waiting'){ ?>
                             <span class="text-xs text-yellow-600"><?php echo $row['Approved'] ?></span>
+                            <?php }elseif($row['Approved'] == 'refused'){ ?>
+                            <span class="text-xs text-red-600"><?php echo $row['Approved'] ?></span>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
                 
-                <p class="text-gray-600 mt-3 text-sm line-clamp-3">
+                <p class="text-gray-600 mt-3 text-sm line-clamp-3 mb-5">
                     <?php echo $row['content'] ?>
                 </p>
+
+                <?php foreach ($tags as $tag) { ?>
+                    <span class='text-sm bg-gray-100 px-2 py-1 rounded'><?php echo $tag['name']?></span>
+                <?php } ?>
                 
                 <div class="flex justify-end space-x-3 mt-4">
                     <form method="POST" class="inline">

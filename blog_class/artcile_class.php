@@ -72,8 +72,29 @@ class Article {
 
     }
 
-    function ApprouverArticle(){
+    static function ApprouverArticle($article_id){
+        $sql = "UPDATE article
+                SET Approved = 'approved'
+                WHERE article_id = :article_id";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
 
+        $stmt->bindParam(':article_id', $article_id);
+
+        $stmt->execute();
+
+    }
+
+    static function RefuseArticle($article_id){
+        $sql = "UPDATE article
+        SET Approved = 'refused'
+        WHERE article_id = :article_id";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':article_id', $article_id);
+
+        $stmt->execute();
     }
 
     function searchByTitle(){
@@ -125,7 +146,7 @@ class Article {
         $sql = "SELECT a.*, t.*
                 FROM article a
                 LEFT JOIN theme t ON a.theme_id = t.theme_id
-                WHERE t.theme_id = :theme_id";
+                WHERE t.theme_id = :theme_id AND Approved = 'approved'";
 
         $pdo = self::getConnection();
 
