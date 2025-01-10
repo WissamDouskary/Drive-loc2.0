@@ -88,6 +88,7 @@ require_once '../blog_class/Theme_class.php';
                 <div class="w-full max-w-2xl">
                     <div class="flex gap-4">
                         <input id="searchBar" type="text" placeholder="Search articles..." class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <input id="Tagssearch" type="text" placeholder="Search tag..." class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-yellow-400">
                     </div>
                 </div>
                 <!-- Tags Filter -->
@@ -308,6 +309,75 @@ searchInput.addEventListener('input', function(){
         }
     }
 });
+
+let TagsSearchInput = document.getElementById('Tagssearch');
+
+TagsSearchInput.addEventListener('input', function(){
+    tagsValue = TagsSearchInput.value
+
+    let conn = new XMLHttpRequest()
+
+    conn.open('GET', `../handling/TagsSearch_handling.php?tagValue=${tagsValue}`, true);
+
+    conn.send();
+
+    conn.onload = function(){
+        let ArticlesTags = JSON.parse(conn.responseText);
+
+        let articlesContainer = document.getElementById('articlesContainer');
+
+        articlesContainer.innerHTML = "";
+
+        ArticlesTags.forEach(function(article) {
+                let tagConn = new XMLHttpRequest();
+
+                tagConn.open('GET', `../handling/getTags.php?article_id=${article.article_id}`, true);
+                tagConn.send();
+                
+                tagConn.onload = function() {
+                    if (tagConn.status === 200) {
+                        let tags = JSON.parse(tagConn.responseText);
+                        let tagsHTML = '';
+
+                        tags.forEach(function(tag) {
+                            tagsHTML += `<span class="text-sm bg-gray-100 px-2 py-1 rounded">${tag.name}</span> `;
+                        });
+
+                        let articleHTML = `
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden card-animation">
+                                <img src="${article.article_image}" alt="Article" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="text-sm text-gray-500">${article.nom} ${article.prenom}</span>
+                                        <span class="text-sm text-gray-500">${article.date_creation}</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-2">${article.title}</h3>
+                                    <p class="text-gray-600 mb-4">${article.content}</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex space-x-2">
+                                            ${tagsHTML}
+                                        </div>
+                                        <!-- see article details form -->
+                                        <form action="../blog/article.php" method="POST">
+                                            <div class="flex items-center space-x-4">
+                                                <input type="submit" value="see Article" class="cursor-pointer">
+                                                <input type="hidden" value="${article.article_id}" name="article_name">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        articlesContainer.innerHTML += articleHTML;
+                    }
+                }
+
+                
+            });
+        
+    }
+})
 
 </script>
 </body>
