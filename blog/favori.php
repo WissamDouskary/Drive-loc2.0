@@ -1,6 +1,7 @@
 <?php 
 session_start();
-
+require_once '../blog_class/artcile_class.php';
+require_once '../blog_class/favori_class.php';
 
 ?>
 
@@ -92,28 +93,34 @@ session_start();
         <div class="bg-white rounded-lg shadow-lg p-6">
             <div class="space-y-6">
                 <!-- Article Item 1 -->
+                <?php 
+                $rows = Favori::ShowFavoriteList($_SESSION['user_id']);
+                foreach($rows as $row){
+                    $tags = Article::gettagsForArticle($row['article_id']);
+                ?>
                 <div class="border-b pb-6">
                     <div class="flex justify-between items-start">
                         <div class="flex space-x-4">
-                            <img src="https://via.placeholder.com/192x112" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
+                            <img src="<?php echo $row['article_image'] ?>" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
                             <div>
-                                <h3 class="text-xl font-bold mb-2">The Ultimate Guide to Car Maintenance</h3>
-                                <p class="text-gray-600 mb-2">Learn essential tips and tricks to keep your car running smoothly. Regular maintenance can extend your vehicle's life and save you money in the long run...</p>
+                                <h3 class="text-xl font-bold mb-2"><?php echo $row['title'] ?></h3>
+                                <p class="text-gray-600 mb-2"><?php echo $row['content'] ?></p>
                                 <div class="flex space-x-2">
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Maintenance</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Tips</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Cars</span>
+                                    <?php foreach($tags as $tag){ ?> 
+                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded"><?php echo $tag['name'] ?></span>
+                                    <?php } ?> 
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-col items-end space-y-2">
-                            <span class="text-gray-500">Saved on: Jan 15, 2024</span>
+                            <span class="text-gray-500">Saved on: <?php echo $row['date_creation'] ?></span>
                             <div class="flex space-x-2">
                                 <button class="text-red-500 hover:text-red-700">Remove</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php } ?>
             </div>
 
             <!-- Pagination -->

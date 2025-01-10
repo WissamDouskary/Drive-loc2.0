@@ -75,9 +75,6 @@ require_once '../blog_class/Theme_class.php';
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold">Create New Article</h1>
-                <div class="flex space-x-3">
-                    <button class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">Publish</button>
-                </div>
             </div>
 
             <!-- Article Form -->

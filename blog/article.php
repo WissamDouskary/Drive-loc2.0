@@ -102,7 +102,7 @@ require_once '../blog_class/favori_class.php';
                     <div class="flex space-x-3">
                         <?php if(!Favori::CheckclientFavorites($_SESSION['user_id'], $row['article_id'])){ ?>
                         <a href="../handling/favori_handl.php?article_id=<?php echo $row['article_id'] ?>"><button class="like-button flex items-center space-x-2 text-gray-500 hover:text-red-500">
-                            <span>❤️</span>
+                            <span>🤍</span>
                             <span><?php echo count(Favori::CountFavorite($row['article_id'])) ?></span>
                         </button></a>
                         <?php }else{ ?>
