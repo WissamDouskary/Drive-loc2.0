@@ -31,6 +31,32 @@ class Favori {
 
     }
 
+    static function CheckclientFavorites($user_id, $article_id){
+        $sql = "SELECT * FROM favori WHERE user_id = :user_id AND article_id = :article_id";
+
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':article_id', $article_id);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    static function CountFavorite($article_id){
+        $sql = "SELECT * FROM favori WHERE article_id = :article_id";
+
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam('article_id', $article_id);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function removeFromfavorite(){
 
     }

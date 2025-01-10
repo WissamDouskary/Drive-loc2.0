@@ -2,6 +2,7 @@
 session_start();
 
 require_once '../blog_class/artcile_class.php';
+require_once '../blog_class/favori_class.php';
 
 
 ?>
@@ -68,6 +69,7 @@ require_once '../blog_class/artcile_class.php';
           <li>
             <a href="../blog/create_article.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white ">Create Article</a>
           </li>
+          <li><a href="../blog/favori.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Favorite</a></li>
           <li>
             <a href="../classes/user.php?signout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white ">Sign out</a>
           </li>
@@ -88,7 +90,7 @@ require_once '../blog_class/artcile_class.php';
     <main class="max-w-4xl mx-auto px-4 py-8">
         <!-- Article Header -->
          <?php 
-        $rows = Article::getSpecifiqueVehicule($_POST['article_name']);
+        $rows = Article::getSpecifiqueVehicule($_GET['article_name']);
         foreach($rows as $row){
          ?>
         <article class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
@@ -97,16 +99,17 @@ require_once '../blog_class/artcile_class.php';
             <div class="p-8">
                 <!-- Article Meta -->
                 <div class="flex items-center justify-between mb-6">
-                    <!-- <div class="flex space-x-3">
-                        <button class="like-button flex items-center space-x-2 text-gray-500 hover:text-red-500">
+                    <div class="flex space-x-3">
+                        <?php if(!Favori::CheckclientFavorites($_SESSION['user_id'], $row['article_id'])){ ?>
+                        <a href="../handling/favori_handl.php?article_id=<?php echo $row['article_id'] ?>"><button class="like-button flex items-center space-x-2 text-gray-500 hover:text-red-500">
                             <span>❤️</span>
-                            <span>24</span>
-                        </button>
-                        <button class="flex items-center space-x-2 text-gray-500 hover:text-blue-500">
-                            <span>📤</span>
-                            <span>Share</span>
-                        </button>
-                    </div> -->
+                            <span><?php echo count(Favori::CountFavorite($row['article_id'])) ?></span>
+                        </button></a>
+                        <?php }else{ ?>
+                        <span>❤️</span>
+                        <span class="text-red-500"><?php echo count(Favori::CountFavorite($row['article_id'])) ?></span>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <!-- Article Content -->
@@ -114,7 +117,7 @@ require_once '../blog_class/artcile_class.php';
                 
                 <div class="flex flex-wrap gap-2 mb-6">
                     <?php 
-                    $tags = Article::gettagsForArticle($_POST['article_name']);
+                    $tags = Article::gettagsForArticle($_GET['article_name']);
                     foreach($tags as $tag){
                     ?>
                     <span class="bg-gray-100 px-3 py-1 rounded-full text-sm"><?php echo $tag['name'] ?></span>

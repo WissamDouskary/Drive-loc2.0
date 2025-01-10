@@ -32,23 +32,23 @@ session_start();
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-4">
-                    <a href="index.html" class="text-2xl font-bold w-8 mr-24">
-                        <img src="imgs/logo.png" alt="LOGO" width="32" height="32">
+                    <a href="../index.php" class="text-2xl font-bold w-8 mr-24">
+                        <img src="../imgs/360_F_323469705_belmsoxt9kj49rxSmOBXpO0gHtfVJvjl-removebg-preview.png" alt="LOGO" width="32" height="32">
                     </a>
                 </div>
                 <div class="hidden w-full md:block md:w-auto">
                     <ul class="flex space-x-8">
-                        <li><a href="index.html" class="hover:text-gray-700">Home</a></li>
-                        <li><a href="vehicles.html" class="hover:text-gray-700">Cars</a></li>
-                        <li><a href="blog.html" class="hover:text-gray-700">Blog</a></li>
-                        <li><a href="favorites.html" class="border-b-2 border-black-200">My Favorites</a></li>
+                        <li><a href="../index.php" class="hover:text-gray-700">Home</a></li>
+                        <li><a href="../pages/vehicles.php" class="hover:text-gray-700">Cars</a></li>
+                        <li><a href="../blog/blog_index.php" class="hover:text-gray-700">Blog</a></li>
+                        <li><a href="../blog/myarticles.php" class="hover:text-gray-700">My Articles</a></li>
                     </ul>
                 </div>
                 
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button" aria-expanded="false">
                         <span class="sr-only">Open user menu</span>
-                        <img width="40px" src="imgs/profile.png" alt="user photo">
+                        <img width="40px" src="../imgs/profilephoto.png" alt="user photo">
                     </button>
                     <!-- Dropdown menu -->
                     <div class="z-50 hidden absolute top-10 right-40 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
@@ -59,7 +59,8 @@ session_start();
                         <ul class="py-2">
                             <li><a href="../blog/myarticles.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Reservations</a></li>
                             <li><a href="../blog/create_article.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Create Article</a></li>
-                            <li><a href="../" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a></li>
+                            <li><a href="../blog/favori.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Favorite</a></li>
+                            <li><a href="../classes/user.php?signout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -108,56 +109,6 @@ session_start();
                         <div class="flex flex-col items-end space-y-2">
                             <span class="text-gray-500">Saved on: Jan 15, 2024</span>
                             <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700">Read</button>
-                                <button class="text-red-500 hover:text-red-700">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Article Item 2 -->
-                <div class="border-b pb-6">
-                    <div class="flex justify-between items-start">
-                        <div class="flex space-x-4">
-                            <img src="https://via.placeholder.com/192x112" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Road Trip Essentials: What to Pack</h3>
-                                <p class="text-gray-600 mb-2">Planning a road trip? Don't leave without these essential items. From emergency kits to entertainment options, we've got you covered...</p>
-                                <div class="flex space-x-2">
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Travel</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Safety</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end space-y-2">
-                            <span class="text-gray-500">Saved on: Jan 12, 2024</span>
-                            <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700">Read</button>
-                                <button class="text-red-500 hover:text-red-700">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Article Item 3 -->
-                <div class="border-b pb-6">
-                    <div class="flex justify-between items-start">
-                        <div class="flex space-x-4">
-                            <img src="https://via.placeholder.com/192x112" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">Electric Cars: The Future of Driving</h3>
-                                <p class="text-gray-600 mb-2">Explore the advantages and challenges of electric vehicles. From charging infrastructure to environmental impact, get the full picture...</p>
-                                <div class="flex space-x-2">
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Electric</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Technology</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">Future</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end space-y-2">
-                            <span class="text-gray-500">Saved on: Jan 10, 2024</span>
-                            <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700">Read</button>
                                 <button class="text-red-500 hover:text-red-700">Remove</button>
                             </div>
                         </div>
