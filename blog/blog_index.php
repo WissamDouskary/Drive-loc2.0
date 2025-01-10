@@ -87,7 +87,6 @@ require_once '../blog_class/Theme_class.php';
                 <div class="w-full max-w-2xl">
                     <div class="flex gap-4">
                         <input id="searchBar" type="text" placeholder="Search articles..." class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                        <button class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700">Search</button>
                     </div>
                 </div>
                 <!-- Tags Filter -->

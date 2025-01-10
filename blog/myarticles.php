@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+require_once '../blog_class/artcile_class.php';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -84,10 +87,6 @@ session_start();
                     <h1 class="text-3xl font-bold">My Articles</h1>
                     <p class="text-gray-700 mt-2">Manage and track your contributions to the Drive & Loc community</p>
                 </div>
-                <div class="flex space-x-4">
-                    <button class="bg-white px-4 py-2 rounded-lg hover:bg-gray-100">Draft Articles (2)</button>
-                    <button class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">Published Articles (5)</button>
-                </div>
             </div>
         </div>
     </div>
@@ -95,61 +94,49 @@ session_start();
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8">
         <!-- Statistics Section -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h3 class="text-gray-500">Total Views</h3>
-                <p class="text-2xl font-bold">1,234</p>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h3 class="text-gray-500">Total Likes</h3>
-                <p class="text-2xl font-bold">256</p>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h3 class="text-gray-500">Comments</h3>
-                <p class="text-2xl font-bold">89</p>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow">
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
                 <h3 class="text-gray-500">Featured Articles</h3>
-                <p class="text-2xl font-bold">2</p>
+                <p class="text-2xl font-bold"><?php echo count(Article::getClientArticles($_SESSION['user_id'])) ?></p>
             </div>
         </div>
 
         <!-- Articles List -->
         <div class="bg-white rounded-lg shadow-lg p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">Published Articles</h2>
-                <div class="flex items-center space-x-4">
-                    <select class="border rounded px-2 py-1">
-                        <option>Most Recent</option>
-                        <option>Most Viewed</option>
-                        <option>Most Liked</option>
-                    </select>
-                </div>
-            </div>
 
             <!-- Article Items -->
             <div class="space-y-6">
                 <!-- Article Item -->
+                <?php 
+                $rows = Article::getClientArticles($_SESSION['user_id']);
+                foreach($rows as $row){
+                    $tags = Article::gettagsForArticle($row['article_id']);
+                ?>
                 <div class="border-b pb-6">
                     <div class="flex justify-between items-start">
                         <div class="flex space-x-4">
-                            <img src="/api/placeholder/200/120" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
+                            <img src="<?php echo $row['article_image'] ?>" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
                             <div>
-                                <h3 class="text-xl font-bold mb-2">The Ultimate Guide to Mountain Driving</h3>
-                                <p class="text-gray-600 mb-2">Essential tips and techniques for safely navigating mountain roads...</p>
+                                <h3 class="text-xl font-bold mb-2"><?php echo $row['title'] ?></h3>
+                                <p class="text-gray-600 mb-2"><?php echo $row['content'] ?></p>
                                 <div class="flex space-x-2">
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">#DrivingTips</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">#Safety</span>
+                                    <?php foreach($tags as $tag){ ?>
+                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded"><?php echo $tag['name'] ?></span>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-col items-end space-y-2">
-                            <span class="text-gray-500">Published: Jan 3, 2024</span>
-                            <div class="flex space-x-4">
-                                <span>👁️ 423</span>
-                                <span>❤️ 45</span>
-                                <span>💬 12</span>
-                            </div>
+                            <span class="text-gray-500">Published: <?php echo $row['date_creation']?></span>
+                            <span class="text-gray-500 ">
+                                Statue: 
+                                <?php if($row['Approved'] == 'approved') { ?>
+                                <span class="text-green-500"><?php echo $row['Approved']?></span>
+                                <?php }elseif($row['Approved'] == 'waiting'){ ?>
+                                <span class="text-gray-500"><?php echo $row['Approved']?></span>
+                                <?php }elseif($row['Approved'] == 'refused'){ ?>
+                                <span class="text-red-500"><?php echo $row['Approved']?></span>
+                                <?php } ?>
+                            </span>
                             <div class="flex space-x-2">
                                 <button class="text-blue-500 hover:text-blue-700">Edit</button>
                                 <button class="text-red-500 hover:text-red-700">Delete</button>
@@ -157,35 +144,8 @@ session_start();
                         </div>
                     </div>
                 </div>
+                <?php } ?>
 
-                <!-- Second Article Item -->
-                <div class="border-b pb-6">
-                    <div class="flex justify-between items-start">
-                        <div class="flex space-x-4">
-                            <img src="/api/placeholder/200/120" alt="Article thumbnail" class="w-48 h-28 object-cover rounded">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">5 Essential Car Maintenance Tips for Winter</h3>
-                                <p class="text-gray-600 mb-2">Keep your vehicle running smoothly during the cold months...</p>
-                                <div class="flex space-x-2">
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">#Maintenance</span>
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">#Winter</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end space-y-2">
-                            <span class="text-gray-500">Published: Dec 28, 2023</span>
-                            <div class="flex space-x-4">
-                                <span>👁️ 312</span>
-                                <span>❤️ 28</span>
-                                <span>💬 8</span>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                                <button class="text-red-500 hover:text-red-700">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Pagination -->

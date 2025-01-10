@@ -8,12 +8,26 @@ class Favori {
     public $CreationDate;
     private $pdo;
 
-    function __construct(){
+    static function getConnection(){
         $connection = new DBconnection();
-        $this->pdo = $connection->PDOconnect();
+        return $connection->PDOconnect();
+    }
+
+    function __construct($user_id, $article_id){
+        $this->user_id = $user_id;
+        $this->article_id = $article_id;
     }
 
     function AddToFavorite(){
+        $sql = 'INSERT INTO favori (user_id, article_id, date_creation)
+                VALUES (:user_id, :article_id, CURDATE())';
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':user_id', $this->user_id);
+        $stmt->bindParam(':article_id', $this->article_id);
+
+        $stmt->execute();
 
     }
 
@@ -22,7 +36,7 @@ class Favori {
     }
 
     function ShowFavoriteList(){
-
+        
     }
 }
 ?>
