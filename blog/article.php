@@ -3,7 +3,7 @@ session_start();
 
 require_once '../blog_class/artcile_class.php';
 require_once '../blog_class/favori_class.php';
-
+require_once '../blog_class/comments_class.php';
 
 ?>
 <!DOCTYPE html>
@@ -141,43 +141,51 @@ require_once '../blog_class/favori_class.php';
             <h2 class="text-2xl font-bold mb-6">Comments (12)</h2>
 
             <!-- Add Comment Form -->
-            <form class="mb-8">
+            <?php if($_GET['article_name']){
+                  
+            ?>
+            <form class="mb-8" method="post" action="../handling/comment_handle.php?article_id=<?php echo $_GET['article_name']?>">
                 <div class="mb-4">
                     <textarea 
                         class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
                         rows="3"
                         placeholder="Add a comment..."
+                        name="typedcomment"
                     ></textarea>
                 </div>
                 <button type="submit" class="bg-primary px-6 py-2 rounded-lg hover:bg-yellow-500">
                     Post Comment
                 </button>
             </form>
-
+            <?php } ?>
             <!-- Comments List -->
             <div class="space-y-6">
                 <!-- Single Comment -->
+                 <?php 
+                 $rows = Comments::allCommentsByArticle($_GET['article_name']);
+                 foreach($rows as $row){
+                 ?>
                 <div class="border-b pb-6">
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-3">
-                            <img src="/api/placeholder/40/40" alt="Commenter" class="w-10 h-10 rounded-full">
                             <div>
-                                <p class="font-semibold">Jane Smith</p>
-                                <p class="text-gray-500 text-sm">2 hours ago</p>
+                                <p class="font-semibold"><?php echo $row['nom'] . " " . $row['prenom'] ?></p>
+                                <p class="text-gray-500 text-sm"><?php echo $row['date_creation'] ?></p>
                             </div>
                         </div>
-                        <!-- Show edit/delete if comment belongs to current user -->
+                        <?php if($_SESSION['user_id'] == $row['user_id']){ ?>
                         <div class="flex space-x-2 text-sm">
                             <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                            <button class="text-red-500 hover:text-red-700">Delete</button>
+                            <a href="../handling/delete_comment.php?article_id=<?php echo $row['article_id'] ?>"><button class="text-red-500 hover:text-red-700">Delete</button></a>
                         </div>
+                        <?php } ?>
                     </div>
                     <p class="text-gray-600">
-                        Great article! I've been to destination #3 and it's exactly as described. Would love to visit the others as well.
+                        <?php echo $row['content'] ?>
                     </p>
                 </div>
+                <?php } ?>
 
-                <!-- More comments... -->
             </div>
 
             <!-- Pagination for comments -->

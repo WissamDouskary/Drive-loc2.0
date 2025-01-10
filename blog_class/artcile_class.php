@@ -2,14 +2,14 @@
 require_once '../classes/conn.php';
 
 class Article {
-    public $article_id;
-    public $user_id;
-    public $theme_id;
-    public $title;
-    public $article_image;
-    public $content;
-    public $Approved;
-    public $CreatedDate;
+    protected $article_id;
+    protected $user_id;
+    protected $theme_id;
+    protected $title;
+    protected $article_image;
+    protected $content;
+    protected $Approved;
+    protected $CreatedDate;
     private $pdo;
 
     static function getConnection(){
