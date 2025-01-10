@@ -68,8 +68,12 @@ class Article {
 
     }
 
-    function deleteArticle(){
-
+    static function deleteArticle($article_id){
+        $sql = "DELETE FROM article
+                where article_id = :article_id";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->bindParam(':article_id', $article_id);
+        $stmt->execute();
     }
 
     static function ApprouverArticle($article_id){

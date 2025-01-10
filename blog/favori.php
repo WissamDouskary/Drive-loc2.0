@@ -115,7 +115,7 @@ require_once '../blog_class/favori_class.php';
                         <div class="flex flex-col items-end space-y-2">
                             <span class="text-gray-500">Saved on: <?php echo $row['date_creation'] ?></span>
                             <div class="flex space-x-2">
-                                <button class="text-red-500 hover:text-red-700">Remove</button>
+                                <a href="../handling/delete_from_favori.php?article_id=<?php echo $row['article_id']?>"><button class="text-red-500 hover:text-red-700">Remove</button></a>
                             </div>
                         </div>
                     </div>
