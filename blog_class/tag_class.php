@@ -7,9 +7,13 @@ class Tag {
     public $CreatedDate;
     private $pdo;
 
-    function __construct(){
+    static function getConnection(){
         $connection = new DBconnection();
-        $this->pdo = $connection->PDOconnect();
+        return $connection->PDOconnect();
+    } 
+
+    function __construct(){
+        
     }
 
     function createTag($name){
@@ -52,13 +56,17 @@ class Tag {
     }
     
 
-    function showSeggTags($searchInput) {
-        $sql = "SELECT * FROM tag WHERE name LIKE :searchInput";
+    static function searchByTags($searchInput) {
+        $sql = "SELECT at.*, a.*, t.name
+                FROM article_tag at 
+                LEFT JOIN article a ON a.article_id = at.article_id
+                LEFT JOIN tag t ON t.tag_id = at.tag_id
+                WHERE t.name LIKE :searchInput";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
     
-        $stmt = $this->pdo->prepare($sql);
-    
-        $forlikeSearch = "%" . $searchInput . "%";
-        $stmt->bindValue(':searchInput', $forlikeSearch, PDO::PARAM_STR);
+        $forlikeSearch = "%". $searchInput . "%";
+        $stmt->bindValue(':searchInput', $forlikeSearch);
     
         $stmt->execute();
     
