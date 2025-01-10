@@ -14,6 +14,9 @@ Une plateforme moderne de location de véhicules permettant aux clients de parco
   - [Installation](#installation)
   - [Usage](#usage)
 - [Contributing](#contributing)
+- [Diagrams](#diagrams)
+  - [UML Use Case Diagram](#uml-use-case-diagram)
+  - [Class Diagram](#class-diagram)
 - [License](#license)
 
 ---
@@ -81,8 +84,17 @@ Une plateforme moderne de location de véhicules permettant aux clients de parco
 5. Push to the branch: `git push origin feature-branch`
 6. Open a pull request
 
-## Lien de Diagram UML Use Case
-`https://lucid.app/lucidchart/621ec3f2-3f53-42e5-8c8d-b7573019bbbc/edit?viewport_loc=699%2C1573%2C2961%2C1381%2C.Q4MUjXso07N&invitationId=inv_fae3c773-b6bc-4c8d-93d9-d557a11556e4`
+---
+
+## Diagrams
+
+### UML Use Case Diagram
+[UML Use Case Diagram](https://lucid.app/lucidchart/621ec3f2-3f53-42e5-8c8d-b7573019bbbc/edit?viewport_loc=699%2C1573%2C2961%2C1381%2C.Q4MUjXso07N&invitationId=inv_fae3c773-b6bc-4c8d-93d9-d557a11556e4)
+
+### Class Diagram
+[Class Diagram](https://lucid.app/lucidchart/103af25f-fb4b-49e8-99ae-7f8be28499ef/edit?viewport_loc=-927%2C-739%2C2302%2C1074%2CHWEp-vi-RSFO&invitationId=inv_7f75a085-5564-4adf-b0c1-ddcba961e941)
+
+---
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
