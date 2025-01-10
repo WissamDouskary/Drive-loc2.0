@@ -183,5 +183,18 @@ class Article {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    static function getClientArticles($user_id){
+        $sql = "SELECT * FROM article 
+                WHERE user_id = :user_id";
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':user_id', $user_id);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(pdo::FETCH_ASSOC);
+    }
+
 }
 ?>

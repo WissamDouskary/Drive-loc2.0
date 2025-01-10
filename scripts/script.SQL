@@ -100,6 +100,15 @@ CREATE TABLE Article_tag (
     FOREIGN KEY (tag_id) REFERENCES tag(tag_id)
 );
 
+CREATE TABLE Favori (
+	favori_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    article_id INT NOT NULL,
+    date_creation datetime,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES article(article_id) ON DELETE CASCADE
+)
+
 
 CREATE VIEW showAllVehicule AS
 SELECT v.*, c.nom
