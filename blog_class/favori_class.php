@@ -61,8 +61,21 @@ class Favori {
 
     }
 
-    function ShowFavoriteList(){
+    static function ShowFavoriteList($user_id){
+        $sql = "SELECT f.*, a.*, u.user_id
+                FROM favori f
+                LEFT JOIN article a ON a.article_id = f.article_id
+                LEFT JOIN user u ON u.user_id = f.user_id
+                WHERE f.user_id = :user_id";
         
+        $pdo = self::getConnection();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':user_id', $user_id);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
