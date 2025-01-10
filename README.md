@@ -4,6 +4,20 @@ Une plateforme moderne de location de véhicules permettant aux clients de parco
 
 ---
 
+## Table of Contents
+- [Fonctionnalités Principales](#-fonctionnalités-principales)
+  - [Pour les Clients](#pour-les-clients)
+  - [Pour les Administrateurs](#pour-les-administrateurs)
+- [Technologies Utilisées](#-technologies-utilisées)
+- [Fonctionnalités Techniques](#-fonctionnalités-techniques)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
 ## 📋 Fonctionnalités Principales
 
 ### Pour les Clients
@@ -44,3 +58,28 @@ Une plateforme moderne de location de véhicules permettant aux clients de parco
 - **Procédure stockée "AjouterReservation"** pour la gestion des réservations
 
 ---
+
+## Getting Started
+
+### Installation
+1. Clone the repository: `git clone https://github.com/WissamDouskary/Drive-loc2.0.git`
+2. Navigate to the project directory: `cd Drive-loc2.0`
+3. Install dependencies: `composer install` (for PHP dependencies)
+4. Set up the database:
+   - Create a new MySQL database
+   - Import the provided SQL file: `mysql -u username -p database_name < database.sql`
+
+### Usage
+1. Start the development server: `php -S localhost:8000`
+2. Open your browser and navigate to `http://localhost:8000`
+
+## Contributing
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature-branch`
+3. Make your changes
+4. Commit your changes: `git commit -m 'Add new feature'`
+5. Push to the branch: `git push origin feature-branch`
+6. Open a pull request
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
