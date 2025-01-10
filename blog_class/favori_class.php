@@ -57,8 +57,12 @@ class Favori {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function removeFromfavorite(){
-
+    static function removeFromfavorite($favori_id){
+        $sql = "DELETE FROM favori
+                where favori_id = :favori_id";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->bindParam(':favori_id', $favori_id);
+        $stmt->execute();
     }
 
     static function ShowFavoriteList($user_id){

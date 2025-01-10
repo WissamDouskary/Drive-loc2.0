@@ -139,8 +139,7 @@ require_once '../blog_class/artcile_class.php';
                                 <?php } ?>
                             </span>
                             <div class="flex space-x-2">
-                                <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                                <button class="text-red-500 hover:text-red-700">Delete</button>
+                                <!-- <a href="../handling/delete_article.php?article_id="><button class="text-red-500 hover:text-red-700">Delete</button></a> -->
                             </div>
                         </div>
                     </div>
