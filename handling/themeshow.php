@@ -143,13 +143,7 @@ require_once '../blog_class/Theme_class.php';
                             <?php } ?>
                             
                             </div>
-
-                            <form action="../blog/article.php" method="POST">
-                            <div class="flex items-center space-x-4">
-                                <input type="submit" value="see Article" class="cursor-pointer">
-                                <input type="hidden" value="<?php echo $row['article_id'] ?>" name="article_name">
-                            </div>
-                            </form>
+                                <a href="../blog/article.php?article_name=<?php echo $row['article_id'] ?>"><input type="submit" value="see Article" class="cursor-pointer"></a>
                         </div>
                     </div>
                 </div>
