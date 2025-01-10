@@ -37,8 +37,14 @@ class Comments {
 
     }
 
-    function deleteComments(){
+    static function deleteComments($comment_id){
+        $sql = 'DELETE FROM comments 
+                WHERE comments_id = :comment_id';
+        $stmt = self::getConnection()->prepare($sql);
 
+        $stmt->bindParam(':comment_id', $comment_id);
+
+        $stmt->execute();
     }
 
     static function allCommentsByArticle($article_id){

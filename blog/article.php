@@ -176,7 +176,7 @@ require_once '../blog_class/comments_class.php';
                         <?php if($_SESSION['user_id'] == $row['user_id']){ ?>
                         <div class="flex space-x-2 text-sm">
                             <button class="text-blue-500 hover:text-blue-700">Edit</button>
-                            <a href="../handling/delete_comment.php?article_id=<?php echo $row['article_id'] ?>"><button class="text-red-500 hover:text-red-700">Delete</button></a>
+                            <a href="../handling/delete_comment.php?comment_id=<?php echo $row['comments_id'] ?>&article_name=<?php echo $row['article_id'] ?>"><button class="text-red-500 hover:text-red-700">Delete</button></a>
                         </div>
                         <?php } ?>
                     </div>
