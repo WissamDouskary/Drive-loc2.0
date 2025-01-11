@@ -22,7 +22,7 @@ class Theme {
         $sql = "INSERT INTO theme(name, description, date_creation)
                 VALUES (:name, :description, CURDATE())";
         
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::getConnection()->prepare($sql);
 
         $stmt->bindParam('name', $this->name);
         $stmt->bindParam('description', $this->description);
