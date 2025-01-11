@@ -175,7 +175,7 @@ class Article {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    static function getSpecifiqueVehicule($article_id){
+    static function getSpecifiqueArticle($article_id){
         $sql = "SELECT * FROM article WHERE article_id = :article_id";
         $pdo = self::getConnection();
         $stmt = $pdo->prepare($sql);

@@ -90,7 +90,7 @@ require_once '../blog_class/comments_class.php';
     <main class="max-w-4xl mx-auto px-4 py-8">
         <!-- Article Header -->
          <?php 
-        $rows = Article::getSpecifiqueVehicule($_GET['article_name']);
+        $rows = Article::getSpecifiqueArticle($_GET['article_name']);
         foreach($rows as $row){
          ?>
         <article class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
